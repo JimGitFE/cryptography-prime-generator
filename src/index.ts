@@ -1,4 +1,5 @@
 import { lcg } from './lcg'
+import { miller_rabin } from './miller_rabin'
 const millsConstant = 1.3063778838630806904686144926
 
 export const primeNth = (n: number): number => {
@@ -8,4 +9,4 @@ export const primeNth = (n: number): number => {
 console.log(primeNth(4), "prime 4")
 
 
-export { lcg, millsConstant }
+export { lcg, millsConstant, miller_rabin }
