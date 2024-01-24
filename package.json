@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node index.ts",
-    "build": "rm -rf ./dist/ && tsc"
+    "build": "rimraf -rf ./dist/ && tsc"
   },
   "repository": {
     "type": "git",
@@ -15,9 +15,8 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-  },
   "devDependencies": {
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
