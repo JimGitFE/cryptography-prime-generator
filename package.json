@@ -2,7 +2,7 @@
   "name": "prime-gen",
   "version": "1.0.0",
   "description": "��#\u0000 \u0000c\u0000r\u0000y\u0000p\u0000t\u0000o\u0000g\u0000r\u0000a\u0000p\u0000h\u0000y\u0000-\u0000p\u0000r\u0000i\u0000m\u0000e\u0000-\u0000g\u0000e\u0000n\u0000e\u0000r\u0000a\u0000t\u0000o\u0000r\u0000\r\u0000 \u0000",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "types": "dist",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
