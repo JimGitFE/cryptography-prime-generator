@@ -71,3 +71,11 @@ bits positioned at [taps] get xored
 
 - how to choose taps?
 - even taps primitive to GF? soultion?
+
+Irreducibility:
+
+Order: The order of a polynomial is the smallest positive integer n such that the polynomial divides x^n - 1. For a polynomial to be primitive, n must be the maximum possible period, which is the size of the field minus 1 (for GF(2^n), this would be 2^n - 1). source copilot
+
+- generate irreducible polynomial degree n (n = bit count)
+- check if primitive
+- primitive => to taps
