@@ -1,4 +1,5 @@
 // test
+import { gcd } from './utils/gcd'
 
 interface GCDparams {
     a: number
@@ -42,13 +43,13 @@ const rsa = ({p, q}: RSAparams): RSAvals => {
     return {n, e}
 }
 
-const gcd = ({a, b}: GCDparams): number => {
-    if (!b) {
-      return a;
-    }
+// const gcd = ({a, b}: GCDparams): number => {
+//     if (!b) {
+//       return a;
+//     }
   
-    return gcd({a: b,b: a % b});
-}
+//     return gcd({a: b,b: a % b});
+// }
 
 const encrypt = ({m, n, e}: encryptParams) => {
     return powerMod(m,e,n)
@@ -75,8 +76,6 @@ const dFind = (p:number, q:number, e:number) => {
 // let RSAprivate = {p: 5622, q: 6}
 let RSAprivate = {p: 5, q: 11}
 let RSApublic = rsa(RSAprivate)
-
-console.log(gcd({a: 5622, b: 6}))
 
 console.log(rsa({p: 5, q: 11}))
 console.log(RSApublic)
