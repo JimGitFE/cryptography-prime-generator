@@ -1,9 +1,9 @@
 
-const polySum = (arr1, arr2) => {
+const polySum = (arr1, arr2, ) => {
     let newarr = []
     arr1.forEach(num => {
             let [inPos, inNeg] = [arr2.indexOf(num), arr2.indexOf(-num)];
-            if (inNeg !== -1 && num !== 0) {
+            if (inNeg !== -1) {
                 // remove from arr2 and filter from arr1
                 arr2.splice(inNeg, 1);
                 return false;
@@ -49,16 +49,17 @@ const polyString = (polynomial) => {
 }
 
 const divide = (dividend, divisor) => {
-    let [remainder, quotient, endLoop, i] = [[], [], false, 0]
-    while (true) {
+    let [remainder, quotient, i] = [[], [], 0]
+    let endIn = -1
+    while (true && i < 4) {
         remainder = []
         // dividend sort by absolute value => [15, -9, 6]
         dividend.sort((a, b) => Math.abs(b) - Math.abs(a));
 
         // 1. generate new quotient => sign(-1|1)*(newDividend-divisor[0])
         quotient.push(absoluteOperation(dividend[0], divisor[0], "sub"))
-
-        if (absoluteOperation(quotient[i],quotient[i-1], "dif")) {
+        
+        if (absoluteOperation(quotient[i],quotient[i-1], "dif")||endIn===0) {
             quotient.pop()
             break
         }
@@ -66,16 +67,19 @@ const divide = (dividend, divisor) => {
         // 2. new quotient sum each term => 11 + divisor
         divisor.forEach(div => {
             let newNum = -absoluteOperation(quotient[i], div, "sum")
-            remainder = polySum([...remainder], [newNum])
+            remainder = polySum([...remainder], [newNum], "sum")
+            if (newNum === 0) {endIn = 1}
         });
 
         // 3. remainder => dividend at next iteration
-        dividend = polySum(dividend, remainder)
-        i+=1
+        dividend = polySum(dividend, remainder, "sub")
+        i+=1, endIn-=1
     }
     return {quotient, "remainder": dividend}
 }
 
-console.log(polyString(divide([15], [4,3,0]).quotient))
-console.log(polyString(divide([15], [4,3,0]).remainder))
- 
+console.log(polyString(divide([4, 2, 2, 2, 2, 2, 2, 0, 0], [2,0,0,0,0,0]).quotient))
+
+// Error in polySum with zero values => [0, 0] + [-0] => [0, 0] instead of [0]
+console.log(divide([4, 2, 2, 2, 2, 2, 2, 0, 0], [2,0,0,0,0,0]).quotient)
+console.log(polySum([0, 0], [-0, 2, 0, 0]))
