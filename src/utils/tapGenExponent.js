@@ -83,3 +83,8 @@ console.log(polyString(divide([4, 2, 2, 2, 2, 2, 2, 0, 0], [2,0,0,0,0,0]).quotie
 // Error in polySum with zero values => [0, 0] + [-0] => [0, 0] instead of [0]
 console.log(divide([4, 2, 2, 2, 2, 2, 2, 0, 0], [2,0,0,0,0,0]).quotient)
 console.log(polySum([0, 0], [-0, 2, 0, 0]))
+
+// >> asd = [0,0,0,0,-0]
+// << (5) [0, 0, 0, 0, -0]
+// >> asd.indexOf(-0)
+// << 0
