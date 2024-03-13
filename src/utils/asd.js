@@ -1,5 +1,5 @@
 
-function polySum(arr1, arr2) {
+const polySum = (arr1, arr2) => {
     let newarr = []
     arr1.forEach(num => {
             let [inPos, inNeg] = [arr2.indexOf(num), arr2.indexOf(-num)];
@@ -28,10 +28,27 @@ function absoluteOperation(a, b, operation = "sum") {
             return customSign(a)*(Math.abs(a) - Math.abs(b));
         case "mul":
             return customSign(a)*(Math.abs(a) * Math.abs(b));
+        case "dif":
+            return Math.abs(a) > Math.abs(b);
     }
 }
 
-function divide (dividend, divisor)  {
+const polyString = (polynomial) => {
+    let poly = {}
+    let str = ""
+    polynomial.forEach(num=>{
+        poly[num] > 0? poly[num] += 1 : poly[num] = 1
+    })
+    Object.entries(poly).sort((a,b)=>Math.abs(Number(a[0]))-Math.abs(Number(b[0]))).reverse().forEach(([key, value]) => {
+        const sign = Math.sign(Number(key))>0?"+":"-"
+        const coef = value==1?"":value
+        const power = Number(key) === 0 ? "" : `x^${Math.abs(Number(key))}`;
+        str += `${sign}${coef}${power}`
+    })
+    return str.slice(1)
+}
+
+const divide = (dividend, divisor) => {
     let [remainder, quotient, endLoop, i] = [[], [], false, 0]
     while (true) {
         remainder = []
@@ -40,30 +57,25 @@ function divide (dividend, divisor)  {
 
         // 1. generate new quotient => sign(-1|1)*(newDividend-divisor[0])
         quotient.push(absoluteOperation(dividend[0], divisor[0], "sub"))
-        console.log("at quotient =",quotient[i])
-        // if (quotient[i]===0) {break}
-        if (i===19) {break}
+
+        if (absoluteOperation(quotient[i],quotient[i-1], "dif")) {
+            quotient.pop()
+            break
+        }
 
         // 2. new quotient sum each term => 11 + divisor
         divisor.forEach(div => {
             let newNum = -absoluteOperation(quotient[i], div, "sum")
             remainder = polySum([...remainder], [newNum])
         });
-        // remainder
+
+        // 3. remainder => dividend at next iteration
         dividend = polySum(dividend, remainder)
-        console.log(dividend)
         i+=1
     }
-    console.log("results")
-    console.log(quotient)
+    return {quotient, "remainder": dividend}
 }
 
-// let arr1 = [-15, -15,3,4,5,0, 3, 3];
-// let arr2 = [-15,-3,-3, -3,0, 9];
-let arr1 = [];
-let arr2 = [-15,-3,-3, -3,0, 9];
-// console.log("asd",polySum(arr1, arr2));  // Output: [-15, -15, -15, 4, 5, 0, 0, 9]
-
-// divide([15], [4,3,0])
-divide([16], [5,4,1])
+console.log(polyString(divide([15], [4,3,0]).quotient))
+console.log(polyString(divide([15], [4,3,0]).remainder))
  
