@@ -1,3 +1,21 @@
+function polySum(arr1: number[], arr2: number[]) {
+    let newarr:number[] = []
+    arr1.forEach(num => {
+            let [inPos, inNeg] = [arr2.indexOf(num), arr2.indexOf(-num)];
+            if (inNeg !== -1 && num !== 0) {
+                // remove from arr2 and filter from arr1
+                arr2.splice(inNeg, 1);
+                return false;
+            } else if (inPos !== -1) {
+                // add to arr1 and remove from arr2
+                arr2.splice(inPos, 1);
+                newarr.push(num);
+            }
+            newarr.push(num);
+    });
+    return [...newarr, ...arr2];
+}
+
 function dividePolynomials(dividend: (0 | 1)[], divisor: (0 | 1)[]) {
     let output = [...dividend];
     let normalizer = divisor[0];
