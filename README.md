@@ -40,7 +40,6 @@ m 2**3
 <, <>>, ≤, ≥<<
 
 ## **LFSR** Linear-Feedback Shift Register Generator
-
 ![16-bit LFSR.](/public/16-bit_lfsr.jpg)
 X<sub>0</sub> = 0xACE1, X<sub>1</sub> = 0x5670, Taps: [16,14,13,11]
 
@@ -50,6 +49,21 @@ function lfsr(seed) {
     return (seed >> 1) | (newB << 3)
 }
 
+### Taps Feedback Polynomial
+
+For an LFSR to be of maximal length, 2<sup>m</sup> - 1, the following conditions are necessary:
+
+- Polynomial is primitive over the Galois field GF(2).
+- The number of taps is even.
+- The set of taps is setwise co-prime.
+
+.
+
+.
+
+.
+
+.
 sxor last value and shifted new last value
 
 & 1 takes last value only
