@@ -79,3 +79,7 @@ Order: The order of a polynomial is the smallest positive integer n such that th
 - generate irreducible polynomial degree n (n = bit count)
 - check if primitive
 - primitive => to taps
+
+### Irreducibility - **Rabin Test**
+### Irreducibility - **Berlekamp's Algorithm**
+
