@@ -93,3 +93,34 @@ Order: The order of a polynomial is the smallest positive integer n such that th
 - generate irreducible polynomial degree n (n = bit count)
 - check if primitive
 - primitive => to taps
+
+### Rabin Test
+
+Probabilistic algorithm, determines if apolynomial is irreducible over a finite field. Probability ... (high)
+
+1. p = x^(2^i), *for every i from 1 to degree - 1* mod p(x) congruent to x
+2. p2 = p^(2^degree) mod p(x) congruent to x
+p2 = x => irreducible over GF(2^degree)
+
+/*
+js
+congruent
+let f = [1, 0, 1, 1]; // Represents x^3 + x + 1
+let x = [0, 1]; // Represents x
+
+// Compute x^(2^1) mod f(x)
+let xPow = [0, 0, 1]; // Represents x^2
+let result = mod(xPow, f); // Should be [0, 1] which represents x
+
+console.log(result); // Logs [0, 1]
+
+not congruent
+let f = [1, 1, 0, 1]; // Represents x^3 + x^2 + 1
+let x = [0, 1]; // Represents x
+
+// Compute x^(2^1) mod f(x)
+let xPow = [0, 0, 1]; // Represents x^2
+let result = mod(xPow, f); // Should be [1, 1] which represents x^2 + x
+
+console.log(result); // Logs [1, 1]
+*/

@@ -1,5 +1,4 @@
-function dividePolynomials(dividend: (0 | 1)[], divisor: (0 | 1)[]) {
-    console.log(dividend, divisor)
+export const dividePolynomials = (dividend: (0 | 1)[], divisor: (0 | 1)[]) => {
     let output = [...dividend];
     let normalizer = divisor[0];
 
@@ -40,5 +39,5 @@ export const polyMod = ({dividend, divisor, modulo = 2}: {dividend: number[], di
 //let dividend = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // Represents x + 1
 //let divisor: (0 | 1)[] = [1, 1, 0, 0, 1]; // Represents 2x^2 + 3x + 2
 
-console.log(dividePolynomials([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 0, 1]));
-console.log(polyMod({dividend: [15], divisor: [4,3]})); // Logs the remainder
+// /console.log(dividePolynomials([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 0, 0, 1]));
+//console.log(polyMod({dividend: [15], divisor: [4,3]})); // Logs the remainder
