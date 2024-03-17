@@ -1,4 +1,4 @@
-export const dividePolynomials = (dividend: (0 | 1)[], divisor: (0 | 1)[]) => {
+export const dividePolynomials = ({dividend, divisor}: {dividend: (0 | 1 | -1)[], divisor: (0 | 1 | -1)[]}) => {
     let output = [...dividend];
     let normalizer = divisor[0];
 
@@ -31,7 +31,7 @@ export const polyMod = ({dividend, divisor, modulo = 2}: {dividend: number[], di
     coefSor[coefSor.length] = 1;
     
     // 2. divide
-    let result = dividePolynomials(coefEnd, coefSor);
+    let result = dividePolynomials({dividend: coefEnd, divisor: coefSor});
     return result.remainder.map(x => x % modulo);
 }
 
