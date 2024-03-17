@@ -1,3 +1,4 @@
+// polynomial modulo division with arguments as arrays of exponents
 
 const polySum = (arr1, arr2, ) => {
     let newarr = []
