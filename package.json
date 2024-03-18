@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node src/index.ts",
-    "build": "rimraf -rf ./dist/ && tsc"
+    "build": "rimraf -rf ./dist/ && tsc",
+    "node": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "mathjs": "^12.4.0"
+    "mathjs": "^12.4.0",
+    "polynomial": "^1.4.5"
   }
 }

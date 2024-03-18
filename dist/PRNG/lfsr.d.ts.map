@@ -1,0 +1,1 @@
+{"version":3,"file":"lfsr.d.ts","sourceRoot":"","sources":["../../src/PRNG/lfsr.ts"],"names":[],"mappings":"AAAA,UAAU,SAAS;IACf,IAAI,CAAC,EAAE,MAAM,CAAC;CACjB;AAED,qBAAa,IAAI;IACb,OAAO,CAAC,IAAI,CAAS;gBAET,EAAC,IAAI,EAAC,EAAE,SAAS;IAQ7B,IAAI,IAAI,MAAM;CAKjB"}

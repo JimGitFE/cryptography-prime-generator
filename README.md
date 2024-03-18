@@ -88,7 +88,15 @@ Bits positioned at [exponent] of terms with coefficient = 1, get xored
 has all non-zero coefficients equal to 1. It cannot be factored into polynomials of lower degree with coefficients in ( GF(2) ), making it irreducible over ( GF(2) )
 
 **or irreducible in GF(2^n)**
+
+GCD(p,f) modulo 2 = 1 for
+=> x^2^n-x
+=> x^2^(n/q)-x for each prime divisor q of n
+
 ##### Source: copilot, [math.stackexchange](https://math.stackexchange.com/questions/1343450/how-can-i-prove-irreducibility-of-polynomial-over-a-finite-field)
+
+factoring calculator
+https://www.mathpapa.com/factoring-calculator/
 
 A primitive polynomial must have a non-zero constant term, for otherwise it will be divisible by x. Over GF(2), x + 1 is a primitive polynomial and all other primitive polynomials have an odd number of terms, since any polynomial mod 2 with an even number of terms is divisible by x + 1 (it has 1 as a root).
 

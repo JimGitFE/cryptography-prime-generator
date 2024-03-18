@@ -8,7 +8,17 @@
 // 4.1 Euclidean Algorithm
 // 5. found feedback tap register for degree n
 
-import { dividePolynomials } from "./division";
+
+import { polyDiv, polyDivMod, expToCoefs } from "./division";
+import { polyGcd } from "../gcd";
+
+/* Polynomial Library
+- No GCD Modulo
+- Unable to compute large exponents
+
+Infinite loop with:
+const polyGcd = new Polynomial("x^10 + x^3 + 1").gcd("x^1024 - x")
+*/
 
 const primitivePolynomials = {
     1: [[0, 1]],
@@ -20,8 +30,6 @@ const primitivePolynomials = {
     7: [[0, 1, 7]],
     8: [[1, 2, 3, 4, 8]]
 };
-
-
 /*
 1.
 GF(2^3) = {(x^3 + x + 1), (x^3 + x^2 + 1), (x^3 + x^2 + x + 1)}
@@ -31,10 +39,11 @@ x^7 / p(x)
 
 */
 // reducible polynomio: x^4+x^2+1 factors = (1 - x + x^2) (1 + x + x^2)
+// gcd(x^5+x^3+x+1, x^4+x^3+x+1) // wrong
 
 
 
-// console.log(dividePolynomials([1, 0, 0, 0, 1],[1, 1, 0, 1]).remainder); // Logs [0, 0, 0, 1]
+// console.log(polyDiv([1, 0, 0, 0, 1],[1, 1, 0, 1]).remainder); // Logs [0, 0, 0, 1]
 
 function gcd(a: number[], b: number[]): number[] {
     if (allZero(b)) return a;
@@ -86,26 +95,25 @@ let polynomial = [1, 0, 0, 1]; // Represents x^3 + 1
 
 
 // 2024
-const expToCoefs = ({dividend, divisor}: {dividend: number[], divisor: number[]}): {dividend: (0 | 1 | -1)[], divisor: (0 | 1 | -1)[]} => {
-    let [coefEnd, coefSor] = [new Array(Math.abs(Math.max(...dividend))+1).fill(0), new Array(Math.abs(Math.max(...divisor))+1).fill(0)];
-    dividend.forEach((exp) => {
-        if (exp == 0) {
-            return coefEnd[coefEnd.length-1] = 1
-        } else {
-            return coefEnd[coefEnd.length - (Math.abs(exp) + 1)] = Math.sign(exp)*1
-        }
-    });
-    divisor.forEach((exp) => {
-        if (exp == 0) {
-            return coefSor[coefSor.length-1] = 1
-        } else {
-            return coefSor[coefSor.length - (Math.abs(exp) + 1)] = Math.sign(exp)*1
-        }
-    });
 
-    console.log("sending", coefEnd, coefSor)
-    return {dividend: coefEnd, divisor: coefSor}
-}
 
-console.log(dividePolynomials(expToCoefs({dividend: [32,-1], divisor: [10,3,0]})))
-// console.log(dividePolynomials(expToCoefs({dividend: [10,3,0], divisor: [32,-1]})))
+// console.log(polyDiv(expToCoefs({dividend: [1024,-1], divisor: [10,3,0]})))
+// console.log(polyDivMod(expToCoefs({dividend: [32,-1], divisor: [10,3,0]})))
+// console.log(polyDiv(expToCoefs({dividend: [32,-1], divisor: [10,3,0]})))
+// console.log(polyDiv(expToCoefs({dividend: [10,3,0], divisor: [32,-1]})))
+// let {dividend: poly1, divisor: poly2} = expToCoefs({dividend: [1024,-1], divisor: [10,3,0]})
+let {dividend: poly1, divisor: poly2} = expToCoefs({dividend: [3,2,2,1,1,1,0,0], divisor: [2,0,0,0,0]}) // gcd x+1
+// let {dividend: poly1, divisor: poly2} = expToCoefs({dividend: [3,1,0], divisor: [2,1,0]})
+// 
+console.log("RESULT ",polyGcd({poly1, poly2, mod: 5}))
+let t2 = new Polynomial("x^5+x^3+x+1")
+console.log(t2.gcd("x^4+x^3+x+1"), "gcd") // x + 1 source copilot, seems wrong
+console.log(t2, "t2")
+let t4 = new Polynomial("x^2-1")
+console.log(t4.gcd("x^2+2x+1"), "gcd") // x + 1
+console.log(t4, "t4")
+let t3 = new Polynomial("x^10+x^3+1")
+// console.log(t3.gcd("x^1024-x"))
+console.log(t3.gcd("x^32-x"), "gcd")
+console.log(t3, "t3")
+// console.log(polyDiv(expToCoefs({dividend: [10,3,0], divisor: [32,-1]})))
