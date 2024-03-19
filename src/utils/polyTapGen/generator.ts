@@ -97,23 +97,8 @@ let polynomial = [1, 0, 0, 1]; // Represents x^3 + 1
 // 2024
 
 
-// console.log(polyDiv(expToCoefs({dividend: [1024,-1], divisor: [10,3,0]})))
-// console.log(polyDivMod(expToCoefs({dividend: [32,-1], divisor: [10,3,0]})))
-// console.log(polyDiv(expToCoefs({dividend: [32,-1], divisor: [10,3,0]})))
-// console.log(polyDiv(expToCoefs({dividend: [10,3,0], divisor: [32,-1]})))
-// let {dividend: poly1, divisor: poly2} = expToCoefs({dividend: [1024,-1], divisor: [10,3,0]})
-let {dividend: poly1, divisor: poly2} = expToCoefs({dividend: [3,2,2,1,1,1,0,0], divisor: [2,0,0,0,0]}) // gcd x+1
-// let {dividend: poly1, divisor: poly2} = expToCoefs({dividend: [3,1,0], divisor: [2,1,0]})
+let {dividend: p, divisor: q} = expToCoefs({dividend: [1024,-1], divisor: [10,3,0]}) // gcd 1
+// let {dividend: p, divisor: q} = expToCoefs({dividend: [3,2,2,1,1,1,0,0], divisor: [2,0,0,0,0]}) // gcd x+1
+// let {dividend: p, divisor: q} = expToCoefs({dividend: [3,1,0], divisor: [2,1,0]})
 // 
-console.log("RESULT ",polyGcd({poly1, poly2, mod: 5}))
-let t2 = new Polynomial("x^5+x^3+x+1")
-console.log(t2.gcd("x^4+x^3+x+1"), "gcd") // x + 1 source copilot, seems wrong
-console.log(t2, "t2")
-let t4 = new Polynomial("x^2-1")
-console.log(t4.gcd("x^2+2x+1"), "gcd") // x + 1
-console.log(t4, "t4")
-let t3 = new Polynomial("x^10+x^3+1")
-// console.log(t3.gcd("x^1024-x"))
-console.log(t3.gcd("x^32-x"), "gcd")
-console.log(t3, "t3")
-// console.log(polyDiv(expToCoefs({dividend: [10,3,0], divisor: [32,-1]})))
+console.log("RESULT ",polyGcd({p, q, mod: 2}))
