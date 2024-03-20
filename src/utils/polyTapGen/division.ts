@@ -10,19 +10,21 @@ export const polyDiv = ({dividend, divisor}: {dividend: (0 | 1 | -1)[], divisor:
     let output = [...dividend];
     let normalizer = divisor[0];
 
+    // 1.1 Compute outputs for the difference of exponents
     for (let i = 0; i < dividend.length - divisor.length + 1; i++) {
+        // 1.2 Generate new Coefficient
         output[i] /= normalizer;
         let coef = output[i];
 
+        // 1.3 Insert coefficient at exponent position
         for (let j = 1; j < divisor.length; j++) {
             output[i + j] += -coef * divisor[j];
         }
     }
 
+    // 1.4 Separate quotient from remainder
     let separator = dividend.length - divisor.length + 1;
-
-    let quotient = output.slice(0, separator);
-    let remainder = output.slice(separator);
+    let [quotient, remainder] = [output.slice(0, separator), output.slice(separator)]
     
     return { quotient, remainder };
 }
