@@ -20,9 +20,25 @@ import { expToCoef, polyDivMod } from "./division";
 import { polyGcd, removeLZero, gcd } from "../gcd";
 
 // 1. Generate Candidate Polynomials of degree n in GF(2^n)
-let candidatePolynomials = []
-const computeCandidates = () => {
+const computeCandidates = (n) => {
+    let leftOne = 1 << n-2 // 0b100
+    let results: number[][] = [];
 
+    // Combinations of middle bits
+    let totalCombinations = Math.pow(2, n-2);
+
+    // Generate bit variants 001 010 100 ...
+    for(let variant = 0; variant < totalCombinations; variant++) {
+        
+        // n = 2, 100 | 10 => 1100 | 1 => 1101 => [1,1,0,1]
+        let binary: number[] = ((leftOne|variant)<<1|1).toString(2).split('').map(Number)
+        
+        // if uneven terms
+        if(binary.reduce((a, b) => a + b, 0) % 2 !== 0) {
+            results.push(binary);
+        }
+    }
+    return results
 }
 
 const compareArrays = (a: any[], b: any[]) => {
