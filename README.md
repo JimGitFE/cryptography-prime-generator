@@ -48,43 +48,27 @@ function lfsr(seed) {
     console.log(newB, "new")
     return (seed >> 1) | (newB << 3)
 }
-
-### Taps Feedback Polynomial
-
-For an LFSR to be of maximal length, 2<sup>m</sup> - 1, the following conditions are necessary:
-
-- Polynomial is primitive over the Galois field GF(2).
-- The number of taps is even.
-- The set of taps is setwise co-prime.
-
-.
-
-.
-
-.
-
-.
-sxor last value and shifted new last value
-
-& 1 takes last value only
-
 function lfsr(seed, length) {
     let newB = (seed ^ (seed >> 1)) & 1
     console.log(newB, "new")
     return (seed >> 1) | (newB << (length - 1))
 }
 
-last bit always tap
-taps xored3
+### Maximum Cycle Length 2<sup>n</sup> - 1
 
-taps even
-primitive to galois (2+´´´´)
+For when the following requirements hold, this process will generate 2<sup>n</sup> − 1 pseudo random bits before repeating the same sequence.
 
-2024
+- Primitive polynomial of degree n over GF(2).
+- The number of taps is even.
+- The set of taps is setwise co-prime.
+
+##### sources: [wikipedia <sub>1</sub>](https://en.wikipedia.org/wiki/Primitive_polynomial_(field_theory)#Pseudo-random_bit_generation),[wikipedia<sub>2</sub>](https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs)
+
+
 bits positioned at [taps] get xored
-
-- how to choose taps?
-- even taps primitive to GF? soultion?
+sxor last value and shifted new last value
+& 1 takes last value only
+last bit always tap
 
 Irreducibility:
 
@@ -101,26 +85,3 @@ Probabilistic algorithm, determines if apolynomial is irreducible over a finite 
 1. p = x^(2^i), *for every i from 1 to degree - 1* mod p(x) congruent to x
 2. p2 = p^(2^degree) mod p(x) congruent to x
 p2 = x => irreducible over GF(2^degree)
-
-/*
-js
-congruent
-let f = [1, 0, 1, 1]; // Represents x^3 + x + 1
-let x = [0, 1]; // Represents x
-
-// Compute x^(2^1) mod f(x)
-let xPow = [0, 0, 1]; // Represents x^2
-let result = mod(xPow, f); // Should be [0, 1] which represents x
-
-console.log(result); // Logs [0, 1]
-
-not congruent
-let f = [1, 1, 0, 1]; // Represents x^3 + x^2 + 1
-let x = [0, 1]; // Represents x
-
-// Compute x^(2^1) mod f(x)
-let xPow = [0, 0, 1]; // Represents x^2
-let result = mod(xPow, f); // Should be [1, 1] which represents x^2 + x
-
-console.log(result); // Logs [1, 1]
-*/
