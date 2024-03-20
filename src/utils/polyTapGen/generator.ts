@@ -17,10 +17,29 @@ Maximum Length Feedback Shift Register Polynomial Generator for LFSR
 */
 
 import { expToCoef, polyDivMod } from "./division";
-import { polyGcd } from "../gcd";
+import { polyGcd, gcd } from "../gcd";
 
 // 1. Generate Candidate Polynomials of degree n in GF(2^n)
 let candidatePolynomials = []
+const computeCandidates = () => {
+    
+}
+
+const isPrimitive = (poly: (0|1|-1)[]) => {
+}
+
+const isIrreducible = (poly: (0|1|-1)[]) => {
+    // array with x^2^n, x^2^(n/q) prime divisor q of n
+    const n = (poly.length-1)
+    const sequence = [2**n]
+    // all common prime divisors of n
+    
+
+    // compute gcd for each x^? - x
+    sequence.forEach(deg=>{
+        let p = expToCoef([deg,-1])
+    })
+}
 
 // Testing irreducibility of x^10 + x^3 + 1
 // let {dividend: p, divisor: q} = expToCoefs({dividend: [127], divisor: [7,6,0]}) // remainder 1 => order check
