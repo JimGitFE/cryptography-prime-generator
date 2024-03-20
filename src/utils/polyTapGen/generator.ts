@@ -16,20 +16,20 @@ Maximum Length Feedback Shift Register Polynomial Generator for LFSR
 4. Found
 */
 
-import { expToCoefs, polyDivMod } from "./division";
+import { expToCoef, polyDivMod } from "./division";
 import { polyGcd } from "../gcd";
 
 // 1. Generate Candidate Polynomials of degree n in GF(2^n)
 let candidatePolynomials = []
 
 // Testing irreducibility of x^10 + x^3 + 1
-let {dividend: p, divisor: q} = expToCoefs({dividend: [127], divisor: [7,6,0]}) // gcd 1 + x^3 + x^10
+// let {dividend: p, divisor: q} = expToCoefs({dividend: [127], divisor: [7,6,0]}) // remainder 1 => order check
 // let {dividend: p, divisor: q} = expToCoefs({dividend: [1024,-1], divisor: [10,3,0]}) // gcd 1 + x^3 + x^10
 // let {dividend: p, divisor: q} = expToCoefs({dividend: [32,-1], divisor: [10,3,0]}) // gcd 1
 // let {dividend: p, divisor: q} = expToCoefs({dividend: [4,-1], divisor: [10,3,0]}) // gcd 1
 
-console.log("RESULT ",polyGcd({p, q, mod: 2}))
-console.log("RESULT ",polyDivMod({dividend: p,divisor: q}))
+// console.log("RESULT ",polyGcd({p: expToCoef([127]), q: expToCoef([7,6,0]), mod: 2}))
+console.log("RESULT ",polyDivMod({dividend: expToCoef([127]), divisor: expToCoef([7,6,0])}))
 
 /*
 Samples

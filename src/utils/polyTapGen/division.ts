@@ -25,35 +25,27 @@ export const polyDiv = ({dividend, divisor}: {dividend: (0 | 1 | -1)[], divisor:
     // 1.4 Separate quotient from remainder
     let separator = dividend.length - divisor.length + 1;
     let [quotient, remainder] = [output.slice(0, separator), output.slice(separator)]
-    
+
     return { quotient, remainder };
 }
 
 // Format from exponents to coefficients type // ex [2] => [1, 0, 1] // x^2 + 1
 // params: array of exponents for the terms with coefficient in GF(2), ex [22] = [1,0,0,0,...]
-export const expToCoefs = ({dividend, divisor}: {dividend: number[], divisor: number[]}): {dividend: (0 | 1 | -1)[], divisor: (0 | 1 | -1)[]} => {
-
+export const expToCoef = (exponentArr: number[]): (0 | 1|-1)[] => {
+    
     //  1.1 Define arrays with length = polynomial degree + 1
-    let [coefEnd, coefSor] = [new Array(Math.abs(Math.max(...dividend))+1).fill(0), new Array(Math.abs(Math.max(...divisor))+1).fill(0)];
-
+    let coefArr = new Array(Math.abs(Math.max(...exponentArr))+1).fill(0)
+    
     //  1.2 Add 1 at each exponent positions, ex. [1,1] => [2,0]
-    dividend.forEach((exp) => {
+    exponentArr.forEach((exp) => {
         if (exp == 0) {
-            return coefEnd[coefEnd.length-1] += 1 // Math.sign(0) = 0 => avoid 1*0
+            return coefArr[coefArr.length-1] += 1 // Math.sign(0) = 0 => avoid 1*0
         } else {
-            return coefEnd[coefEnd.length - (Math.abs(exp) + 1)] += Math.sign(exp)*1
-        }
-    });
-    //  1.2 Add 1 at each exponent positions, ex. [1,1] => [2,0]
-    divisor.forEach((exp) => {
-        if (exp == 0) {
-            return coefSor[coefSor.length-1] += 1 // Math.sign(0) = 0 => avoid 1*0
-        } else {
-            return coefSor[coefSor.length - (Math.abs(exp) + 1)] += Math.sign(exp)*1
+            return coefArr[coefArr.length - (Math.abs(exp) + 1)] += Math.sign(exp)*1
         }
     });
 
-    return {dividend: coefEnd, divisor: coefSor}
+    return [...coefArr]
 }
 
 // Polynomial Division remainder, coefficients modulo 2 (default)
