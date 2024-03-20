@@ -27,7 +27,8 @@ export const polyDiv = ({dividend, divisor}: {dividend: (0 | 1 | -1)[], divisor:
     return { quotient, remainder };
 }
 
-// Transform to coefficient format // ex [2] => [1, 0, 1] // x^2 + 1
+// Format from exponents to coefficients type // ex [2] => [1, 0, 1] // x^2 + 1
+// params: array of exponents for the terms with coefficient in GF(2), ex [22] = [1,0,0,0,...]
 export const expToCoefs = ({dividend, divisor}: {dividend: number[], divisor: number[]}): {dividend: (0 | 1 | -1)[], divisor: (0 | 1 | -1)[]} => {
 
     //  1.1 Define arrays with length = polynomial degree + 1
@@ -36,8 +37,7 @@ export const expToCoefs = ({dividend, divisor}: {dividend: number[], divisor: nu
     //  1.2 Add 1 at each exponent positions, ex. [1,1] => [2,0]
     dividend.forEach((exp) => {
         if (exp == 0) {
-            // Math.sign(0) = 0 => avoid 1*0
-            return coefEnd[coefEnd.length-1] += 1
+            return coefEnd[coefEnd.length-1] += 1 // Math.sign(0) = 0 => avoid 1*0
         } else {
             return coefEnd[coefEnd.length - (Math.abs(exp) + 1)] += Math.sign(exp)*1
         }
@@ -45,8 +45,7 @@ export const expToCoefs = ({dividend, divisor}: {dividend: number[], divisor: nu
     //  1.2 Add 1 at each exponent positions, ex. [1,1] => [2,0]
     divisor.forEach((exp) => {
         if (exp == 0) {
-            // Math.sign(0) = 0 => avoid 1*0
-            return coefSor[coefSor.length-1] += 1
+            return coefSor[coefSor.length-1] += 1 // Math.sign(0) = 0 => avoid 1*0
         } else {
             return coefSor[coefSor.length - (Math.abs(exp) + 1)] += Math.sign(exp)*1
         }
@@ -55,8 +54,8 @@ export const expToCoefs = ({dividend, divisor}: {dividend: number[], divisor: nu
     return {dividend: coefEnd, divisor: coefSor}
 }
 
-// polynomial division remainder, coefficients modulo 2 (default)
-// param: array of exponents for the terms with coefficient in GF(2)
+// Polynomial Division remainder, coefficients modulo 2 (default)
+// params: coefficients array type, ex. [3,0,1] not [2,2,2,1] // 3x^2+1
 export const polyDivMod = ({dividend, divisor, modulo = 2}: {dividend: (0|1|-1)[], divisor: (0|1|-1)[], modulo?: number}) => {    
     
     // 1.1 Polynomial Division

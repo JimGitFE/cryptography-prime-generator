@@ -49,8 +49,8 @@ const removeLZero = (poly0: (0|1|-1)[]): (0|1|-1)[] => {
 }
 
 
-// Euclidean GCD of Polynomials Modulo some number, 
-// returns & inputs coefficients array, ex. [3,0,1] 3x^2+1 not [2,2,2,1]
+// Euclidean GCD for Polynomials Modulo some number,
+// returns & inputs coefficients array type, ex. [3,0,1] not [2,2,2,1] // 3x^2+1
 export const polyGcd = ({p,q, mod = 0}:{p: (0|1|-1)[], q: (0|1|-1)[], mod?: number}) => {
 
     // 1.1 Loop until remainder is 0, then gcd(p,q) = previous remainder
@@ -69,4 +69,4 @@ export const polyGcd = ({p,q, mod = 0}:{p: (0|1|-1)[], q: (0|1|-1)[], mod?: numb
     return p // p is d / d divides p & q 
 }
 
-// subresultant algorithm
+// Subresultant Algorithm
