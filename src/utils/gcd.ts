@@ -41,7 +41,7 @@ function allZero(array: number[]): boolean {
 }
 
 // Remove left zeroes from array, ex. [0,1] => [1]
-const removeLZero = (poly0: (0|1|-1)[]): (0|1|-1)[] => {
+export const removeLZero = (poly0: (0|1|-1)[]): (0|1|-1)[] => {
     while (poly0[0] == 0) {
         poly0.shift()
     }
