@@ -1,12 +1,8 @@
 import { arrayGcd } from "../gcd";
-
-// Modulo Operation
-const mod = function (num: number, n: number):number {
-  return ((num % n) + n) % n;
-};
+import { mod } from "../math";
 
 // Polynomial Division
-export const polyDiv = ({dividend, divisor}: {dividend: (0 | 1 | -1)[], divisor: (0 | 1 | -1)[]}) => {
+export const polyDiv = ({dividend, divisor, modulo = 0}: {dividend: number[], divisor: number[], modulo?: number}) => {
     let output = [...dividend];
     let normalizer = divisor[0];
 
@@ -18,7 +14,11 @@ export const polyDiv = ({dividend, divisor}: {dividend: (0 | 1 | -1)[], divisor:
 
         // 1.3 Insert coefficient at exponent position
         for (let j = 1; j < divisor.length; j++) {
-            output[i + j] += -coef * divisor[j];
+            let coef2 = (-coef * divisor[j])
+            // output[i + j] += -coef * divisor[j];
+
+            // 1.4 Dividend - Result Modulo (coef already negative) 
+            output[i + j] = <(0|1)>mod(coef2 + output[i + j],2); // 0|1 for GF(2)
         }
     }
 
@@ -53,14 +53,38 @@ export const expToCoef = (exponentArr: number[]): (0 | 1|-1)[] => {
 export const polyDivMod = ({dividend, divisor, modulo = 2}: {dividend: (0|1|-1)[], divisor: (0|1|-1)[], modulo?: number}) => {    
     
     // 1.1 Polynomial Division
-    let result = polyDiv({dividend, divisor});
-
-    // 1.2 modulo result, for GF(2) mod 2
-    let remainderMod = result.remainder.map(x => mod(x, modulo)) 
+    let {remainder} = polyDiv({dividend, divisor, modulo});
     
-    // 1.3 remove constant factor, ex 4x+4 => 4(x+1) => x+1 
-    let constFactor = arrayGcd(remainderMod) // if 0 => then constant factor = 1 to avoid 0/0 = NaN
-    remainderMod = remainderMod.map(x => x/(constFactor || 1)) 
-
-    return remainderMod;
+    return remainder;
 }
+
+// function polynomialDivision(dividend, divisor) {
+//     let quotient = []
+//     let output = [...dividend]
+//     let remainder = [...dividend];
+//     let coefficient
+    
+//     for (let i = 0; i < dividend.length - divisor.length + 1; i++) {
+        
+//         // 1.1 Compute quotient
+//         // [1,0,0,0,0,0,0,0,0,0] 11
+//         coefficient = remainder[i]/divisor[0]
+//         quotient[i] = coefficient
+        
+//         // 1.2 Multiply result with divisor
+//         // [1,0,0,0,0,0,0,0] * [1,1,0,0,1]
+//         // [1,1,0,0,1,0,0,0,0] 15 14 11
+//         for (let j = 0; j < divisor.length; j++) {
+//             let exp = divisor.length - j
+//             coefficient = -quotient[i]*divisor[j]
+//         // 1.3 Subtract dividend with output
+//             remainder[i+j] += coefficient
+//         }
+        
+        
+        
+//         console.log(quotient, remainder, output)
+        
+//     }
+    
+// }

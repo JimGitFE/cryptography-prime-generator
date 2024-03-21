@@ -16,16 +16,17 @@ Maximum Length Feedback Shift Register Polynomial Generator for LFSR
 4. Found
 */
 
-import { expToCoef, polyDivMod } from "./division";
-import { polyGcd, removeLZero, gcd } from "../gcd";
+import { expToCoef, polyDiv, polyDivMod } from "./division";
+import { polyGcd, removeLZero } from "../gcd";
+import { isPrime, compareArrays } from "../math";
 
 // 1. Generate Candidate Polynomials of degree n in GF(2^n)
-const computeCandidates = (n) => {
-    let leftOne = 1 << n-2 // 0b100
-    let results: number[][] = [];
+const computeCandidates = (n: number): (0|1|-1)[][] => {
+    let leftOne = 1 << n-1 // 0b100
+    let results: (0|1|-1)[][] = [];
 
     // Combinations of middle bits
-    let totalCombinations = Math.pow(2, n-2);
+    let totalCombinations = Math.pow(2, n-1);
 
     // Generate bit variants 001 010 100 ...
     for(let variant = 0; variant < totalCombinations; variant++) {
@@ -35,32 +36,25 @@ const computeCandidates = (n) => {
         
         // if uneven terms
         if(binary.reduce((a, b) => a + b, 0) % 2 !== 0) {
-            results.push(binary);
+            results.push(<(0|1)[]>binary);
         }
     }
+    
     return results
 }
 
-const compareArrays = (a: any[], b: any[]) => {
-    console.log("comparing")
-    console.log(JSON.stringify(a), JSON.stringify(b))
-    console.log(JSON.stringify(a) === JSON.stringify(b))
-    console.log("comparing")
-    return JSON.stringify(a) === JSON.stringify(b);
-};
-
-function isPrime(num: number) {
-    for(let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++)
-        if(num % i === 0) return false; 
-    return num > 1;
-}
-
 const isPrimitive = (poly: (0|1|-1)[]) => {
+    // x ** ((2**degree) -1) mod f(x) = 1
+    const n = poly.length-1
+
+    // compute phi order of polynomio 
+    let remainder = removeLZero(<(0|1|-1)[]>polyDivMod({dividend: expToCoef([(2**n)-1]), divisor: poly}))
+
+    return compareArrays(remainder, [1])
 }
 
 const isIrreducible = (poly: (0|1|-1)[]) => {
-
-    // array with x^2^n, x^2^(n/q) prime divisor q of n
+    // Array with exponents x^2^n, & prime divisor q of n
     const n = poly.length-1
     const sequence = [2**n]
 
@@ -75,10 +69,10 @@ const isIrreducible = (poly: (0|1|-1)[]) => {
     for (let i = 0; i < sequence.length; i++) {
         const x = sequence[i]
         if (i == 0) {
-            let gcdRes = polyGcd({p: expToCoef([x,-1]), q: poly, mod: 2})
+            let gcdRes = polyGcd({p: expToCoef([x,-1]), q: poly, modulo: 2})
             if ( compareArrays(gcdRes, [1]) ) return false
         } else {
-            let gcdRes = polyGcd({p: expToCoef([x,-1]), q: poly, mod: 2})
+            let gcdRes = polyGcd({p: expToCoef([x,-1]), q: poly, modulo: 2})
             if ( !compareArrays(gcdRes, [1]) ) return false
         }
     }
@@ -86,19 +80,51 @@ const isIrreducible = (poly: (0|1|-1)[]) => {
     return true
 }
 
-// isIrreducible([1,1,0,1])
-console.log(isIrreducible(expToCoef([10,3,0])))
+export const generateTaps = (degree: number): any[] => {
+    let Taps: number[][] = []
+    const possibleTaps = computeCandidates(degree) 
+    for (let i = 0; i < possibleTaps.length; i++) {
+        const poly = possibleTaps[i]
+        console.log("testing",poly)
+        if (!isPrimitive(poly)) {
+            console.log(false, "failed primitive")
+        } else if (!isIrreducible(poly)) {
+            console.log(false, "failed irreducible")
+        } else {
+            console.log(true, "primitive")
+            console.log(true, "irreducible")
+            Taps.push(<(0|1)[]>poly)
+        }
+        console.log(Taps)
+    }
+    return Taps
+}
+
+
+// console.log(generateTaps(20))
+console.log(generateTaps(2))
+
+// irreducible
+// console.log(isIrreducible(expToCoef([10,3,0])))
+// console.log(isIrreducible(blocked))
+
+// reducible
 // console.log(isIrreducible(expToCoef([4,2,0])))
 
+// primitive
+// console.log(isPrimitive(expToCoef([7,6,0])))
+// not primitive
+// console.log(isPrimitive(expToCoef([10,3,0])))
+console.log(isPrimitive(expToCoef([4,3,2,1,0])))
 
 // prime divisor q of n, what if q = n?
 
-// console.log("RESULT ",polyGcd({p: expToCoef([127]), q: expToCoef([7,6,0]), mod: 2}))
-// console.log("RESULT ",polyGcd({p: expToCoef([1024,-1]), q: expToCoef([10,3,0]), mod: 2}))
-// console.log("RESULT ",polyDivMod({dividend: expToCoef([127]), divisor: expToCoef([7,6,0])}))
-
 /*
 Samples
+
+Not Primitive
+
+x^4+x^3+x^2+x+1 ? from math.stack // false
 
 Primitive over GF(2^n)
 
